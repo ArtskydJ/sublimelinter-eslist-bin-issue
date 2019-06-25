@@ -1,21 +1,35 @@
-This file is meant to demonstrate an issue in
+This repository is meant to demonstrate an issue in
 SublimeLinter-eslint.
 
-## what happened
+## steps to replicate
 
-If the `package.json` file is this:
+#### prerequisites
+
+1. SublimeLinter
+2. SublimeLinter-eslint (https://github.com/SublimeLinter/SublimeLinter-eslint#installation)
+3. Node.js (and npm)
+4. eslint `npm install -g eslint`
+
+#### steps
+
+1. Clone this repo
+2. Open bin.js in Sublime Text
+3. Save it. You will see `eslint(erred)` in the status bar.
+4. Open the sublime console. You'll see the error I got below, which is `TypeError: string indices must be integers`
+
+## workaround
+
+Change the `package.json` file to this:
 ```json
 {"bin":{"cli":"whatever.js"}}
 ```
 
-then the syntax error in `bin.js` is found.
+Then save bin.js, and the syntax error will be found.
 
-but if I change the `package.json` file to this:
-```json
-{"bin":"whatever.js"}
-```
 
-then I receive this error:
+## full error message
+
+I have SublimeLinter debug:true in my user settings. Even without that, you should recieve the entire stack trace below
 
 ```
 SublimeLinter: #104 linter.py:1003    eslint: linting 'bin.js'
@@ -36,9 +50,9 @@ Traceback (most recent call last):
 TypeError: string indices must be integers
 ```
 
-NPM supports the bin property being set as a string, as well as an object:
-https://docs.npmjs.com/files/package.json#bin
-
 ## what I expect to happen
 
-I expect that the bin property being set as a string does not cause sublime linter to fail.
+Since NPM supports the [bin property](https://docs.npmjs.com/files/package.json#bin) being set as a string, as well as an object...
+
+
+I expect that the bin property can be set as a string and sublime linter should not fail.
